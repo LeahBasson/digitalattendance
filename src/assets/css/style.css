@@ -1,0 +1,79 @@
+/* Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css');
+
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrapper{
+  /* background-color: var(--primary); */
+  font-family: "Poppins", sans-serif;
+  color: inherit;
+}
+
+/* custom variables */
+:root{
+  --primary: #252525;
+  --secondary: white;
+  --alternative: #5A682C;
+  --awesome: #8EA833;
+  --logColor: #E2E2E2; 
+  --guestColor: #6E6E6E;
+}
+
+@property --top-left{
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --top-right{
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --bottom-left{
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+@property --bottom-right{
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2C3E50;
+  scroll-behavior: smooth;
+}
+
+/* Grid Layout */
+:is(.wrapper) {
+  display: grid;
+  text-align: center;
+}
+
+/* Create 3 rows */
+:is(.wrapper){
+  grid-template-rows: auto minmax(1fr, 100dvh) auto;
+}
+
+section {
+  scroll-margin-block: 5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
