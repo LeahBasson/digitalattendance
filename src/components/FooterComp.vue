@@ -20,5 +20,6 @@
     font-size: 1rem;
     background-color: var(--primary);
     padding: 1.2rem;
+    margin-bottom: 0;
   }
   </style>

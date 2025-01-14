@@ -10,10 +10,20 @@
         <h1>Life Choices Academy Class 1</h1>
         <p>Daily Logs</p>
       </div>
+      
   
       <!-- Always display the class-one-data section -->
       <div class="class-one-data" id="classonedata">
-        <p>This is the class one data section.</p>
+        <p>This is the data.</p>
+      </div>
+      <div class="class-one-data" id="classonedata">
+        <p>This is the data.</p>
+      </div>
+      <div class="class-one-data" id="classonedata">
+        <p>This is the data.</p>
+      </div>
+      <div class="class-one-data" id="classonedata">
+        <p>This is the data.</p>
       </div>
     </div>
   </template>

@@ -77,3 +77,16 @@ section {
 html {
   scroll-behavior: smooth;
 }
+
+/* Universal Selector */
+/* Custom CSS */
+html::-webkit-scrollbar {
+  width: 0.5rem;
+}
+html::-webkit-scrollbar-track {
+  background: var(--primary);
+}
+html::-webkit-scrollbar-thumb {
+  background: var(--alternative);
+  border-radius: 5rem;
+}
