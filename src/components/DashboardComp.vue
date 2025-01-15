@@ -130,7 +130,7 @@ export default {
 .dash-content{
   display: flex;
   justify-content: center;
-  width: 26%;
+  width: 28%;
   flex-direction: column;
   margin: auto;
 }
@@ -146,7 +146,7 @@ export default {
 }
 
 .dash-button{
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   padding: 0.8rem 1rem;
   width: 15rem;
   border: none;

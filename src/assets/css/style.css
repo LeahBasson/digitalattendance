@@ -87,6 +87,6 @@ html::-webkit-scrollbar-track {
   background: var(--primary);
 }
 html::-webkit-scrollbar-thumb {
-  background: var(--alternative);
+  background: var(--awesome);
   border-radius: 5rem;
 }
