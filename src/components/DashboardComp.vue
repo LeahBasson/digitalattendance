@@ -4,7 +4,6 @@
      <div class="dash-content-container">
 
         <div class="dash-content">
-          <span class="custom-badge">13</span>
           <div class="iframe-container">
       <iframe
         src="/lca-class-one?fullView=false"
@@ -20,7 +19,6 @@
         </div>
 
         <div class="dash-content">
-          <span class="custom-badge">13</span>
           <div class="iframe-container">
       <iframe
         src="/lca-class-two?fullView=false"
@@ -35,7 +33,6 @@
         </div>
 
         <div class="dash-content">
-          <span class="custom-badge">13</span>
           <div class="iframe-container">
       <iframe
         src="/green-solar?fullView=false"
@@ -50,7 +47,6 @@
         </div>
 
         <div class="dash-content">
-          <span class="custom-badge">13</span>
           <div class="iframe-container">
       <iframe
         src="/green-solar-youth?fullView=false"
@@ -65,7 +61,6 @@
         </div>
 
         <div class="dash-content">
-          <span class="custom-badge">13</span>
           <div class="iframe-container">
       <iframe
         src="/lc-studio?fullView=false"
@@ -81,7 +76,6 @@
 
 
         <div class="dash-content">
-          <span class="custom-badge">13</span>
           <div class="iframe-container">
       <iframe
         src="/youth-force?fullView=false"
@@ -160,19 +154,5 @@ export default {
   background-color: var(--awesome);
 }
 
-.custom-badge {
-  display: inline-block;
-  background-color: var(--awesome); 
-  color: white; 
-  font-size: 1rem; 
-  font-weight: bold;
-  text-align: center;
-  width: 40px; 
-  height: 40px;
-  line-height: 40px; 
-  border-radius: 50%; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-left: 21rem;
-}
 
 </style>

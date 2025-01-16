@@ -11,15 +11,15 @@
       <p>Daily Logs</p>
     </div>
 
-    <!-- Include the table here -->
     <div>
       <StatusTable />
-    </div>
+     </div>
+
   </div>
 </template>
 
 <script>
-import StatusTable from '@/components/TableComp.vue';
+import StatusTable from '@/components/LcaClassOneTableComp.vue';
 
 export default {
   name: "LcaClassOne",
@@ -27,7 +27,6 @@ export default {
     StatusTable,
   },
   computed: {
-    // Check the query parameter to determine what to show
     showFullView() {
       return this.$route.query.fullView === "true";
     },
@@ -76,5 +75,29 @@ export default {
   background-color: green;
   border-radius: 50%;
   margin-right: 5px;
+}
+
+.badge-display{
+  width: 93%;
+  margin: auto;
+  /* background-color: pink; */
+  margin-top: 1rem;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 0.5rem;
+}
+
+.custom-badge {
+  display: inline-block;
+  background-color: var(--awesome); 
+  color: white; 
+  font-size: 1rem; 
+  font-weight: bold;
+  text-align: center;
+  width: 40px; 
+  height: 40px;
+  line-height: 40px; 
+  border-radius: 50%; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>

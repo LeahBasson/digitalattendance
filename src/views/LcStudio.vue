@@ -11,19 +11,21 @@
         <p>Daily Logs</p>
       </div>
   
-      <!-- Always display the class-one-data section -->
-      <div class="lc-studio-data" id="lcstudiodata">
-        <p>This is the data.</p>
-      </div>
-      <div class="lc-studio-data" id="lcstudiodata">
-        <p>This is the data.</p>
-      </div>
+      <div>
+      <StatusTable />
+     </div>
+
     </div>
   </template>
   
   <script>
+  import StatusTable from '@/components/LcStudioTableComp.vue';
+
   export default {
     name: "LcStudio",
+    components: {
+    StatusTable,
+  },
     computed: {
       // Check the query parameter to determine what to show
       showFullView() {
@@ -34,46 +36,69 @@
   </script>
   
   <style>
-  .heading {
-    width: 95%;
-    height: 220px;
-    background-color: var(--alternative);
-    margin: auto;
-    text-align: center;
-    padding-top: 4rem;
-    margin-top: 0.5rem;
-    border-radius: 2rem;
-    color: var(--secondary);
-  }
-  
-  .heading p {
-    font-size: 1.3rem;
-  }
-  
-  .back-icon {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    margin-left: 1rem;
-  }
-  
-  .back-icon i {
-    color: var(--guestColor);
-    font-size: 2.5rem;
-    cursor: pointer;
-  }
-  
-  .back-icon a {
-    text-decoration: none;
-  }
-  
-  .lc-studio-data {
-    background-color: #f5f5f5;
-    padding: 1rem;
-    border-radius: 10px;
-    margin: 1rem auto;
-    width: 95%;
-    text-align: center;
-  }
-  </style>
-  
+.heading {
+  width: 95%;
+  height: 220px;
+  background-color: var(--alternative);
+  margin: auto;
+  text-align: center;
+  padding-top: 4rem;
+  margin-top: 0.5rem;
+  border-radius: 2rem;
+  color: var(--secondary);
+}
+
+.heading p {
+  font-size: 1.3rem;
+}
+
+.back-icon {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin-left: 1rem;
+}
+
+.back-icon i {
+  color: var(--guestColor);
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+.back-icon a {
+  text-decoration: none;
+}
+
+.status-icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.badge-display{
+  width: 93%;
+  margin: auto;
+  /* background-color: pink; */
+  margin-top: 1rem;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 0.5rem;
+}
+
+.custom-badge {
+  display: inline-block;
+  background-color: var(--awesome); 
+  color: white; 
+  font-size: 1rem; 
+  font-weight: bold;
+  text-align: center;
+  width: 40px; 
+  height: 40px;
+  line-height: 40px; 
+  border-radius: 50%; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+</style>

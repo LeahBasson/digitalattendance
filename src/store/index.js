@@ -8,22 +8,25 @@ import router from '@/router'
 
 const { cookies } = useCookies()
 const apiUrl = "https://a-t-app-backend.onrender.com/"
-// const apiUrl = "http://localhost:3001/"
+
 // Apply token from cookies if available
 const savedUser = cookies.get('LegitUser');
 if (savedUser && savedUser?.token) {
   applyToken(savedUser.token);
 }
+
 const store = createStore({
   state() {
     return {
       users: undefined,
       user: savedUser ? savedUser.result : null,
       redirectIntent: null,
+      logs: null,
+      logStatus: [],
     };
   },
   mutations: {
-     setUsers(state, value) {
+    setUsers(state, value) {
       state.users = value;
     },
     setUser(state, payload) {
@@ -32,17 +35,21 @@ const store = createStore({
     setRedirectIntent(state, value) {
       state.redirectIntent = value;
     },
+    setLogs(state, value) {
+      state.logs = value;
+    },
+    setLogStatus(state, value) {
+      state.logStatus = value;
+    }
   },
   actions: {
-    async fetchCurrentUser({ commit  }) {
+    async fetchCurrentUser({ commit }) {
       try {
         const token = cookies.get("LegitUser")?.token;
         if (!token) return;
-        const { result } = await (
-          await axios.get(`${apiUrl}users/account`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-        ).data;
+        const { result } = await axios.get(`${apiUrl}users/account`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).data;
         if (result) {
           commit("setUser", result);
         } else {
@@ -57,9 +64,7 @@ const store = createStore({
     },
     async loginUser(context, loginObj) {
       try {
-        const { msg, result, token } = await (
-          await axios.post(`${apiUrl}admin/login`, loginObj)
-        ).data;
+        const { msg, result, token } = await axios.post(`${apiUrl}admin/login`, loginObj).data;
         if (result) {
           toast.success(`${msg}:😘:`, {
             autoClose: 2000,
@@ -68,10 +73,7 @@ const store = createStore({
           context.commit("setUser", result);
           cookies.set("LegitUser", { token, msg, result });
           applyToken(token);
-          if (
-            context.state.redirectIntent === "admin" &&
-            result.user_role === "admin"
-          ) {
+          if (context.state.redirectIntent === "admin" && result.user_role === "admin") {
             router.push({ name: "admin" });
           }
           context.commit("setRedirectIntent", null);
@@ -88,10 +90,9 @@ const store = createStore({
         });
       }
     },
-    
     async fetchUsers(context) {
       try {
-        const { results, msg } = await (await axios.get(`${apiUrl}users`)).data;
+        const { results, msg } = await axios.get(`${apiUrl}users`).data;
         if (results) {
           context.commit("setUsers", results);
         } else {
@@ -109,8 +110,7 @@ const store = createStore({
     },
     async fetchUser(context, id) {
       try {
-        const { result, msg } = await (await axios.get(`${apiUrl}users/${id}`))
-          .data;
+        const { result, msg } = await axios.get(`${apiUrl}users/${id}`).data;
         if (result) {
           context.commit("setUser", result);
         } else {
@@ -128,9 +128,7 @@ const store = createStore({
     },
     async updateUser(context, payload) {
       try {
-        const { msg, err } = await (
-          await axios.patch(`${apiUrl}users/${payload.user_id}`, payload)
-        ).data;
+        const { msg, err } = await axios.patch(`${apiUrl}users/${payload.user_id}`, payload).data;
         if (msg) {
           context.dispatch("fetchUsers");
           toast.success(`${msg}`, {
@@ -159,9 +157,7 @@ const store = createStore({
     },
     async deleteUser(context, id) {
       try {
-        const { msg, err } = await (
-          await axios.delete(`${apiUrl}users/${id}`)
-        ).data;
+        const { msg, err } = await axios.delete(`${apiUrl}users/${id}`).data;
         if (msg) {
           context.dispatch("fetchUsers");
           toast.success(`${msg}`, {
@@ -181,6 +177,41 @@ const store = createStore({
         });
       }
     },
+    async fetchLogs(context) {
+      try {
+        const { results } = await axios.get(`${apiUrl}logs`).data;
+        if (results) {
+          context.commit('setLogs', results);
+        } else {
+          router.push({ name: 'login' });
+        }
+      } catch (err) {
+        toast.error(`${err}`, {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
+    },
+    async fetchLogStatus(context) {
+      try {
+        const res = await axios.get(`${apiUrl}logs/status`);
+        const { results, msg } = res.data;
+        if (results) {
+          context.commit('setLogStatus', results);
+        } else {
+          toast.error(`${msg}`, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        }
+      } catch (e) {
+        toast.error(`${e.message}`, {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
+    },
   },
 });
+
 export default store;

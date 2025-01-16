@@ -60,7 +60,7 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     component: DashboardComp,
-    meta: {requiresAuth: true},
+    // meta: {requiresAuth: true},
   }
  
 ]

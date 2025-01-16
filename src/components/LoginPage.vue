@@ -29,7 +29,7 @@
             />
           </div>
           <div class="form-group">
-            <input type="submit" value="Login Now" class="btn" @click="loginUser()" />
+            <input type="submit" value="Login Now" class="btn" @click.prevent="loginUser" />
             <p>
               Trouble Signing In?
               <router-link @click="scrollToTop()" to="/register">Help</router-link>
@@ -73,7 +73,7 @@
         if (!this.errors.length) {
           try {
             await this.loginUser(this.loginObj);
-            this.$router.push("/dashboard"); // Redirect to the homepage upon successful login
+            this.$router.push("/"); // Redirect to the homepage upon successful login
           } catch (error) {
             this.errors.push("Incorrect email or password!");
           }

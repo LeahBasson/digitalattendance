@@ -11,19 +11,21 @@
         <p>Daily Logs</p>
       </div>
   
-      <!-- Always display the class-one-data section -->
-      <div class="green-solar-youth-data" id="greensolaryouthdata">
-        <p>This is the data.</p>
-      </div>
-      <div class="green-solar-youth-data" id="greensolaryouthdata">
-        <p>This is the data.</p>
-      </div>
+      <div>
+      <StatusTable />
+     </div>
+
     </div>
   </template>
   
   <script>
+  import StatusTable from '@/components/GreenSolarYouthTableComp.vue';
+
   export default {
     name: "GreenSolarYouth",
+    components: {
+    StatusTable,
+  },
     computed: {
       // Check the query parameter to determine what to show
       showFullView() {
@@ -67,13 +69,37 @@
     text-decoration: none;
   }
   
-  .green-solar-youth-data {
-    background-color: #f5f5f5;
-    padding: 1rem;
-    border-radius: 10px;
-    margin: 1rem auto;
-    width: 95%;
+  .status-icon {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .badge-display{
+    width: 93%;
+    margin: auto;
+    /* background-color: pink; */
+    margin-top: 1rem;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 0.5rem;
+  }
+  
+  .custom-badge {
+    display: inline-block;
+    background-color: var(--awesome); 
+    color: white; 
+    font-size: 1rem; 
+    font-weight: bold;
     text-align: center;
+    width: 40px; 
+    height: 40px;
+    line-height: 40px; 
+    border-radius: 50%; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   </style>
   
