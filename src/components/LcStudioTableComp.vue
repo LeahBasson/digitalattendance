@@ -1,38 +1,37 @@
 <template>
   <div class="badge-display">
-      <span class="custom-badge">{{ onsiteCount }}</span>
+    <span class="custom-badge">{{ onsiteCount }}</span>
   </div>
 
   <div class="table-container">
-      <div class="table-heading">
-           <div>
-              <p>Fullname</p>
-           </div>
-           <div>
-              <p>Status</p>
-           </div>
+    <div class="table-heading">
+      <div>
+        <p>Fullname</p>
       </div>
-
-      <div class="table-border-btm"></div>
-
-      <div v-if="filteredLogStatus.length > 0">
-          <div class="table-content" v-for="status in filteredLogStatus" :key="status.user_id">
-              <div class="table-data-one">
-                  <p>{{ status['Full Name'] }}</p>
-              </div>
-              <div class="table-data-two">
-                  <span :class="['status-icon', { 'onsite': status.status.trim().toLowerCase() === 'on-site', 'offsite': status.status.trim().toLowerCase() === 'off-site' }]"></span>
-                  <p>{{ status.status || 'Unknown' }}</p>
-              </div>
-          </div>
+      <div>
+        <p>Status</p>
       </div>
+    </div>
+
+    <div class="table-border-btm"></div>
+
+    <div v-if="filteredLogStatus.length > 0">
+      <div class="table-content" v-for="status in filteredLogStatus" :key="status.user_id">
+        <div class="table-data-one">
+          <p>{{ status['Full Name'] }}</p>
+        </div>
+        <div class="table-data-two">
+          <span :class="['status-icon', { 'onsite': status.status.trim().toLowerCase() === 'on-site', 'offsite': status.status.trim().toLowerCase() === 'off-site' }]"></span>
+          <p>{{ status.status || 'Unknown' }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-
 <script setup>
 import { useStore } from 'vuex'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 
 const store = useStore()
 
@@ -41,10 +40,19 @@ const logStatus = computed(() => store.state.logStatus)
 const filteredLogStatus = computed(() => logStatus.value.filter(status => status.department === 'Life Choices Studio'))
 
 const onsiteCount = computed(() => filteredLogStatus.value.filter(status => status.status.trim().toLowerCase() === 'on-site').length)
-
-onMounted(async () => {
+/// new changes
+const updateData = async () => {
   await store.dispatch('fetchLogStatus')
+}
+
+onMounted(updateData)
+
+// Watch for changes in logStatus and update the data automatically
+watch(logStatus, () => {
+  updateData()
 })
+
+/// new changes
 </script>
 
 <style scoped>
@@ -105,4 +113,3 @@ onMounted(async () => {
   font-size: 1rem;
 }
 </style>
-

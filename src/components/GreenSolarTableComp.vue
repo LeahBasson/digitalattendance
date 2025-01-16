@@ -32,7 +32,7 @@
   
   <script setup>
   import { useStore } from 'vuex'
-  import { computed, onMounted } from 'vue'
+  import { computed, onMounted, watch } from 'vue'
   
   const store = useStore()
   
@@ -42,9 +42,16 @@
   
   const onsiteCount = computed(() => filteredLogStatus.value.filter(status => status.status.trim().toLowerCase() === 'on-site').length)
   
-  onMounted(async () => {
-    await store.dispatch('fetchLogStatus')
-  })
+  const updateData = async () => {
+  await store.dispatch('fetchLogStatus')
+}
+
+onMounted(updateData)
+
+// Watch for changes in logStatus and update the data automatically
+watch(logStatus, () => {
+  updateData()
+})
   </script>
   
   <style scoped>
