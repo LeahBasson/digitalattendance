@@ -1,20 +1,16 @@
-import { createStore } from 'vuex'
-import axios from 'axios'
-import { toast } from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css'
-import { applyToken } from '../service/AuthenticatedUser.js'
-import { useCookies } from 'vue3-cookies'
-import router from '@/router'
-
-const { cookies } = useCookies()
-const apiUrl = "https://a-t-app-backend.onrender.com/"
-
-// Apply token from cookies if available
+import { createStore } from 'vuex';
+import axios from 'axios';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+import { applyToken } from '../service/AuthenticatedUser.js';
+import { useCookies } from 'vue3-cookies';
+import router from '@/router';
+const { cookies } = useCookies();
+const apiUrl = "https://a-t-app-backend.onrender.com/";
 const savedUser = cookies.get('LegitUser');
 if (savedUser && savedUser?.token) {
   applyToken(savedUser.token);
 }
-
 const store = createStore({
   state() {
     return {
@@ -64,19 +60,17 @@ const store = createStore({
     },
     async loginUser(context, loginObj) {
       try {
-        const { msg, result, token } = await axios.post(`${apiUrl}admin/login`, loginObj).data;
+        const response = await axios.post(`${apiUrl}admin/login`, loginObj);
+        const { msg, result, token } = response.data || {};
         if (result) {
-          toast.success(`${msg}:😘:`, {
+          toast.success(`${msg}::kissing_heart::`, {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
           context.commit("setUser", result);
           cookies.set("LegitUser", { token, msg, result });
           applyToken(token);
-          if (context.state.redirectIntent === "admin" && result.user_role === "admin") {
-            router.push({ name: "admin" });
-          }
-          context.commit("setRedirectIntent", null);
+          router.push({ name: "home" }); // Ensure redirection to dashboard
         } else {
           toast.error(`${msg}`, {
             autoClose: 2000,
@@ -84,7 +78,8 @@ const store = createStore({
           });
         }
       } catch (e) {
-        toast.error(`${e.message}`, {
+        console.error('Login error:', e);
+        toast.error(`Error during login: ${e.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
@@ -213,5 +208,4 @@ const store = createStore({
     },
   },
 });
-
 export default store;

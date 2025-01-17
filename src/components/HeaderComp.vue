@@ -116,7 +116,7 @@ Header Comp
 }
 
 /* Media query for devices larger than 999px */
-@media (min-width: 1000px) {
+@media (min-width: 1700px) {
   .header-section {
     display: flex;
     justify-content: space-around;
