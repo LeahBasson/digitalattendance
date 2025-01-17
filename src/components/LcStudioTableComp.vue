@@ -40,7 +40,7 @@ const logStatus = computed(() => store.state.logStatus)
 const filteredLogStatus = computed(() => logStatus.value.filter(status => status.department === 'Life Choices Studio'))
 
 const onsiteCount = computed(() => filteredLogStatus.value.filter(status => status.status.trim().toLowerCase() === 'on-site').length)
-/// new changes
+/// working code
 const updateData = async () => {
   await store.dispatch('fetchLogStatus')
 }
@@ -52,7 +52,7 @@ watch(logStatus, () => {
   updateData()
 })
 
-/// new changes
+/// working code
 </script>
 
 <style scoped>
