@@ -101,5 +101,24 @@
     border-radius: 50%; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+  @media (max-width: 555px){
+  .back-icon {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin-left: 0rem;
+}
+}
+
+/* Media query 556px to 999px */
+@media (min-width: 556px) and (max-width: 999px){
+  .back-icon {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin-left: 0rem;
+}
+}
   </style>
   

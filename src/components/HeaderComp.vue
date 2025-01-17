@@ -1,3 +1,4 @@
+Header Comp
 <template>
     <div class="header-section">
       <div class="dash-logo">
@@ -33,7 +34,8 @@
   <style>
   .header-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    gap: 14rem;
     background-color: var(--primary);
   }
   
@@ -62,5 +64,80 @@
     text-transform: uppercase;
     margin-top: 1.5rem;
   }
+
+  /* Media query for 555px and less*/
+  @media (max-width: 555px){
+    .header-section {
+    display: flex;
+    justify-content: space-around;
+    gap: 1.2rem;
+    background-color: var(--primary);
+  }
+
+    .pm-section{
+      display: none;
+    }
+
+    .dash-logo {
+    margin-left: 0rem;
+    margin-top: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .dash-logo a img {
+    width: 190px;
+    height: auto;
+  }
+  }
+
+  /* Media query 556px to 999px */
+@media (min-width: 556px) and (max-width: 999px){
+  .header-section {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    background-color: var(--primary);
+  }
+
+  .pm-section{
+      display: none;
+    }
+
+    .dash-logo {
+    margin-left: 0rem;
+    margin-top: 2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .dash-logo a img {
+    width: 210px;
+    height: auto;
+  }
+}
+
+/* Media query for devices larger than 999px */
+@media (min-width: 1000px) {
+  .header-section {
+    display: flex;
+    justify-content: space-around;
+    gap: 42rem;
+    background-color: var(--primary);
+  }
+
+  .pm-section{
+      display: none;
+    }
+
+    .dash-logo {
+    margin-left: 0rem;
+    margin-top: 1.6rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .dash-logo a img {
+    width: 220px;
+    height: auto;
+  }
+}
   </style>
   
