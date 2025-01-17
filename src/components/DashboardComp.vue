@@ -95,20 +95,67 @@ Dashboard
         </div>
 
      </div>
+
+     <div class="logout">
+      <button class="logout-button" @click="logOut">
+        Logout<span><i class="bi bi-box-arrow-right"></i></span>
+      </button>
+    </div>
     
   </div>
 </template>
 
 <script>
 import PanicMode from './PanicMode.vue';
+import { useCookies } from 'vue3-cookies'; // Correctly import cookies
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2'; // Import SweetAlert
 
 export default {
   name: "DashboardComp",
   components: {
-      PanicMode
-    },
+    PanicMode
+  },
+  setup() {
+    const { cookies } = useCookies(); // Initialize cookies
+    const router = useRouter(); // Initialize router
+
+    // Logout function with SweetAlert confirmation
+    const logOut = () => {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be logged out of your account.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5A682C',
+        cancelButtonColor: '#8EA833',
+        confirmButtonText: 'Yes, log me out!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          cookies.remove('LegitUser'); // Remove the 'LegitUser' cookie
+          router.push({ name: 'login' }); // Redirect to the login page
+          setTimeout(() => {
+            location.reload(); // Refresh the page after redirecting
+          }, 1000); // Adjust the timeout as needed
+
+          Swal.fire({
+          title: 'Logged Out',
+          text: 'You have been successfully logged out.',
+          icon: 'success',
+          confirmButtonColor: '#5A682C' 
+        });
+
+        }
+      });
+    };
+
+    return { logOut };
+  }
 };
 </script>
+
+
 
 <style>
 .dashboard-comp{
@@ -174,6 +221,30 @@ export default {
     color: var(--primary);
     margin: auto;
     display: none;
+  }
+
+  .logout {
+    display: flex;
+    justify-content: end;
+    width: 85%;
+    margin: auto;
+    margin-bottom: 2rem;
+  }
+
+  .logout-button{
+    padding: 0.7rem 1.5rem;
+    border: none;
+    background-color: var(--alternative);
+    color: var(--secondary);
+    border-radius: 1rem;
+  }
+
+  .logout-button i{
+    margin-left: 0.5rem;
+  }
+
+  .logout-button:hover{
+    background-color: var(--awesome);
   }
 
   @media (max-width: 555px){
@@ -257,7 +328,7 @@ export default {
 
 
 /* Media query for devices larger than 999px */
-@media (min-width: 1000px) {
+@media (min-width: 1700px) {
   .dash-content-container{
   display: flex;
   flex-wrap: wrap;
