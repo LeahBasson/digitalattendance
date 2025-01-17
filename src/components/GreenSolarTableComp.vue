@@ -111,6 +111,19 @@ watch(logStatus, () => {
   .table-content {
     font-size: 1rem;
   }
+
+  @media (max-width: 555px){
+  .table-heading p {
+  font-size: 1.2rem;
+}
+}
+
+/* Media query 556px to 999px */
+@media (min-width: 556px) and (max-width: 999px){
+  .table-heading p {
+  font-size: 1.2rem;
+}
+}
   </style>
   
   

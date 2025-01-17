@@ -1,3 +1,4 @@
+Panic Mode
 <template>
     <div>
 
@@ -54,7 +55,6 @@ export default {
     text-transform: uppercase;
     font-weight: 600;
     text-align: center;
-    color: white;
   }
   
   /* Toggle switch container */
@@ -102,8 +102,44 @@ export default {
   
   .toggle-label {
     font-size: 0.9rem;
-    color: white;
     text-transform: none;
   }
+
+  @media (max-width: 555px){
+    .panic-mode h6 {
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+    .toggle-label {
+    font-size: 1.1rem;
+    text-transform: none;
+  }
+  }
+
+   /* Media query 556px to 999px */
+@media (min-width: 556px) and (max-width: 999px){
+  .panic-mode h6 {
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+    .toggle-label {
+    font-size: 1.4rem;
+    text-transform: none;
+  }
+
+  .toggle-knob {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+}
   </style>
   

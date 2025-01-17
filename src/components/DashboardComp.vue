@@ -1,5 +1,10 @@
+Dashboard
 <template>
   <div class="dashboard-comp">
+
+    <div class="panic-mode-section">
+        <PanicMode />
+      </div>
  
      <div class="dash-content-container">
 
@@ -95,12 +100,21 @@
 </template>
 
 <script>
+import PanicMode from './PanicMode.vue';
+
 export default {
   name: "DashboardComp",
+  components: {
+      PanicMode
+    },
 };
 </script>
 
 <style>
+.dashboard-comp{
+  display: block;
+}
+
 .button-container {
   display: flex;
   gap: 1rem;
@@ -154,5 +168,104 @@ export default {
   background-color: var(--awesome);
 }
 
+.panic-mode-section {
+    text-transform: uppercase;
+    padding-top: 2rem;
+    color: var(--primary);
+    margin: auto;
+    display: none;
+  }
 
+  @media (max-width: 555px){
+    .panic-mode-section {
+    text-transform: uppercase;
+    padding-top: 2rem;
+    color: var(--primary);
+    margin: auto;
+    display: block;
+  }
+
+  .dash-content{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  margin: auto;
+}
+
+.dash-content-container{
+  display: flex;
+  flex-wrap: wrap;
+  width: 95%;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dash-button{
+  border-radius: 1.5rem;
+  padding: 0.8rem 1rem;
+  width: 15rem;
+  border: none;
+  background-color: var(--alternative);
+  color: var(--secondary);
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+  }
+
+   /* Media query 556px to 999px */
+@media (min-width: 556px) and (max-width: 999px){
+  .panic-mode-section {
+    text-transform: uppercase;
+    padding-top: 2rem;
+    color: var(--primary);
+    margin: auto;
+    display: block;
+  }
+
+  .dash-content{
+  display: flex;
+  justify-content: center;
+  width: 84%;
+  flex-direction: column;
+  margin: auto;
+}
+
+.dash-content-container{
+  display: flex;
+  flex-wrap: wrap;
+  width: 95%;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dash-button{
+  border-radius: 1.5rem;
+  padding: 0.8rem 1rem;
+  width: 15rem;
+  border: none;
+  background-color: var(--alternative);
+  color: var(--secondary);
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+}
+
+
+/* Media query for devices larger than 999px */
+@media (min-width: 1000px) {
+  .dash-content-container{
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+}
 </style>

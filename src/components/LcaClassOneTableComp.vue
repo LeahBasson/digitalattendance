@@ -54,6 +54,7 @@
     flex-direction: column;
     margin-bottom: 4rem;
   }
+
   .table-heading {
     display: flex;
     justify-content: space-between;
@@ -61,6 +62,7 @@
     margin: auto;
     margin-top: 1rem;
   }
+
   .table-content {
     display: flex;
     justify-content: space-between;
@@ -71,6 +73,7 @@
     background-color: var(--logColor);
     padding: 1rem;
   }
+
   .table-border-btm {
     width: 94%;
     height: 1px;
@@ -104,6 +107,19 @@
   .table-content {
     font-size: 1rem;
   }
+
+  @media (max-width: 555px){
+  .table-heading p {
+  font-size: 1.2rem;
+}
+}
+
+/* Media query 556px to 999px */
+@media (min-width: 556px) and (max-width: 999px){
+  .table-heading p {
+  font-size: 1.2rem;
+}
+}
   </style>
   
   
