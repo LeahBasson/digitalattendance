@@ -63,13 +63,16 @@ const store = createStore({
         const response = await axios.post(`${apiUrl}admin/login`, loginObj);
         const { msg, result, token } = response.data || {};
         if (result) {
-          toast.success(`${msg}::kissing_heart::`, {
+          toast.success(`${msg}:kissing_heart:`, {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
           context.commit("setUser", result);
           cookies.set("LegitUser", { token, msg, result });
           applyToken(token);
+          
+          console.log("here");
+          
           router.push({ name: "home" }); // Ensure redirection to dashboard
         } else {
           toast.error(`${msg}`, {

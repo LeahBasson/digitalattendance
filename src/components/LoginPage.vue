@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import Swal from 'sweetalert2';
 import { mapActions } from "vuex";
 export default {
   name: "LoginPage",
@@ -45,38 +46,52 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loginUser"]), // map the loginUser action from Vuex
-    scrollToTop() {
-      window.scrollTo(0, 0);
-    },
-    async loginUser(){
-      await this.$store.dispatch('loginUser',this.loginObj)
-      if (this.$store.state.user) {
-        this.$router.push('/home'); // Redirect to dashboard upon successful login
-      }
-    },
-    async handleSubmit() {
-      this.errors = [];
-      if (!this.loginObj.email_add) {
-        this.errors.push("Email is required");
-      } else {
-        const emailPattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
-        if (!emailPattern.test(this.loginObj.email_add)) {
-          this.errors.push("Email must be valid");
-        }
-      }
-      if (!this.loginObj.user_pass) {
-        this.errors.push("Password is required");
-      }
-      if (!this.errors.length) {
-        try {
-          await this.loginUser(this.loginObj);
-        } catch (error) {
-          this.errors.push("Incorrect email or password!");
-        }
-      }
-    },
+  ...mapActions(["loginUser"]), // map the loginUser action from Vuex
+  scrollToTop() {
+    window.scrollTo(0, 0);
   },
+  async loginUser() {
+    // Validate the email and password fields
+    if (!this.loginObj.email_add || !this.loginObj.user_pass) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        confirmButtonColor: '#5A682C',
+        text: 'Both email and password are required!',
+      });
+      return;
+    }
+
+    // Proceed with the login if both fields are filled
+    await this.$store.dispatch('loginUser', this.loginObj)
+    // if (this.$store.state.user) {
+    //   this.$router.push('/home'); // Redirect to dashboard upon successful login
+    // }
+  },
+
+  async handleSubmit() {
+    this.errors = [];
+    if (!this.loginObj.email_add) {
+      this.errors.push("Email is required");
+    } else {
+      const emailPattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
+      if (!emailPattern.test(this.loginObj.email_add)) {
+        this.errors.push("Email must be valid");
+      }
+    }
+    if (!this.loginObj.user_pass) {
+      this.errors.push("Password is required");
+    }
+    if (!this.errors.length) {
+      try {
+        await this.loginUser(this.loginObj);
+      } catch (error) {
+        this.errors.push("Incorrect email or password!");
+      }
+    }
+  },
+}
+
 };
 </script>
 <style scoped>
@@ -105,9 +120,9 @@ export default {
   font-size: 2rem;
   font-weight: bolder;
   text-transform: uppercase;
-  color: #27AE60;
+  color: var(--alternative);
   margin: 0;
-  text-shadow: 4.5px 2px 2px #B3B1B1;
+  text-shadow: 4.5px 2px 2px var(--logColor);
 }
 .login-container .login-form-container form .form-control {
   margin: 0.7rem 0;
@@ -128,7 +143,7 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.2)
 }
 .login-container .login-form-container form .btn:hover {
-  background-color: #27AE60;
+  background-color: var(--alternative);
   color:#f7f7f7;
   transform: scale(1);
   transition: ease-in-out 0.3s;
@@ -140,10 +155,10 @@ export default {
   margin: 0;
 }
 .login-container .login-form-container form p a {
-  color: #27AE60;
+  color: var(--alternative);
 }
 .login-container .login-form-container form p a:hover {
-  color: #130F40;
+  color: var(--awesome);
   text-decoration: underline;
 }
 .login-container .login-form-container form .error-box {
