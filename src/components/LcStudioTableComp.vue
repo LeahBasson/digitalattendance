@@ -1,3 +1,4 @@
+Working code
 <template>
   <div class="badge-display">
     <span class="custom-badge">{{ onsiteCount }}</span>
@@ -30,8 +31,8 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
-import { computed, onMounted, watch } from 'vue'
+import { useStore } from 'vuex';
+import { computed, onMounted, watch } from 'vue';
 
 const store = useStore()
 
@@ -40,20 +41,57 @@ const logStatus = computed(() => store.state.logStatus)
 const filteredLogStatus = computed(() => logStatus.value.filter(status => status.department === 'Life Choices Studio'))
 
 const onsiteCount = computed(() => filteredLogStatus.value.filter(status => status.status.trim().toLowerCase() === 'on-site').length)
-/// working code
+
 const updateData = async () => {
-  await store.dispatch('fetchLogStatus')
+  try {
+
+    await store.dispatch('fetchLogStatus')
+  } catch (error) {
+    console.error('Error fetching log status:', error)
+  }
 }
+
+const throttle = (func, limit) => {
+
+  let lastFunc;
+  let lastRan;
+  return function(...args) {
+    const context = this;
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(function() {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
+
+const throttledUpdateData = throttle(updateData, 300); // Throttle to 300ms
 
 onMounted(updateData)
 
-// Watch for changes in logStatus and update the data automatically
-watch(logStatus, () => {
-  updateData()
+// Awodwa patch 
+onMounted(()=>{
+  setInterval(() => {
+      store.dispatch("fetchLogStatus")   
+
+  }, 2500);
 })
 
-/// working code
+// Awodwa patch
+
+// Watch for changes in logStatus and update the data immediately using throttle
+watch(logStatus, async () => {
+  throttledUpdateData()
+})
 </script>
+
 
 <style scoped>
 .table-container {

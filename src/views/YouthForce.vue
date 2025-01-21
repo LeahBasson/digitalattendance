@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="showFullView" class="back-icon">
-      <router-link to="/">
+      <router-link to="/home">
         <i class="fi fi-br-angle-small-left"></i>
       </router-link>
     </div>
