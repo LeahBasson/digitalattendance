@@ -25,10 +25,6 @@
         </div>
         <div class="form-group">
           <input type="submit" value="Login Now" class="btn" @click.prevent="loginUser" />
-          <p>
-            Trouble Signing In?
-            <router-link @click="scrollToTop()" to="/register">Help</router-link>
-          </p>
         </div>
       </form>
     </div>
