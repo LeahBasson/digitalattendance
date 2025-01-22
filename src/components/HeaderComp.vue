@@ -1,7 +1,8 @@
-Header Comp
 <template>
     <div class="header-section">
-      <div class="dash-logo">
+      <div class="header-content-container">
+
+        <div class="dash-logo">
         <a href="#home">
           <img class="img-fluid" src="https://leahbasson.github.io/MyImages/dats/lc-logo.png" alt="logo" loading="eager">
         </a>
@@ -15,6 +16,7 @@ Header Comp
         <PanicMode />
       </div>
 
+      </div>
     </div>
   </template>
   
@@ -33,14 +35,17 @@ Header Comp
   
   <style>
   .header-section {
-    display: flex;
-    justify-content: space-around;
-    gap: 14rem;
     background-color: var(--primary);
+  }
+
+  .header-content-container{
+    display: flex;
+    justify-content: space-between;
+    width: 87%;
+    margin: auto;
   }
   
   .dash-logo {
-    margin-left: 2rem;
     margin-top: 1.2rem;
     margin-bottom: 1.2rem;
   }
@@ -60,18 +65,18 @@ Header Comp
   }
   
   .pm-section {
-    width: 300px;
+    /* width: 300px; */
     text-transform: uppercase;
     margin-top: 1.5rem;
   }
 
   /* Media query for 555px and less*/
   @media (max-width: 555px){
-    .header-section {
+    .header-content-container{
     display: flex;
-    justify-content: space-around;
-    gap: 1.2rem;
-    background-color: var(--primary);
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
   }
 
     .pm-section{
@@ -80,23 +85,23 @@ Header Comp
 
     .dash-logo {
     margin-left: 0rem;
-    margin-top: 1.8rem;
+    margin-top: 2.1rem;
     margin-bottom: 1.2rem;
   }
 
   .dash-logo a img {
-    width: 190px;
+    width: 160px;
     height: auto;
   }
   }
 
   /* Media query 556px to 999px */
 @media (min-width: 556px) and (max-width: 999px){
-  .header-section {
+  .header-content-container{
     display: flex;
-    justify-content: space-around;
-    gap: 2rem;
-    background-color: var(--primary);
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
   }
 
   .pm-section{
@@ -115,17 +120,17 @@ Header Comp
   }
 }
 
-/* Media query for devices larger than 999px */
-@media (min-width: 1700px) {
-  .header-section {
+/* Media query 1920px */
+@media (min-width: 1920px){
+  .header-content-container{
     display: flex;
-    justify-content: space-around;
-    gap: 42rem;
-    background-color: var(--primary);
+    justify-content: space-between;
+    width: 83%;
+    margin: auto;
   }
-
+  
   .pm-section{
-      display: none;
+      display: block;
     }
 
     .dash-logo {
@@ -139,5 +144,6 @@ Header Comp
     height: auto;
   }
 }
+
   </style>
   
