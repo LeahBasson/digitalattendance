@@ -76,11 +76,11 @@ const throttledUpdateData = throttle(updateData, 300); // Throttle to 300ms
 onMounted(updateData)
 
 // Awodwa patch 
-onMounted(()=>{
-  setInterval(() => {
-      store.dispatch("fetchLogStatus")   
-  }, 2500);
-})
+// onMounted(()=>{
+//   setInterval(() => {
+//       store.dispatch("fetchLogStatus")   
+//   }, 2500);
+// })
 
 // Awodwa patch
 
