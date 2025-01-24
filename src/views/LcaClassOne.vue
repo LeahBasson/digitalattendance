@@ -108,6 +108,8 @@ export default {
   padding: 1rem;
   margin-left: 0rem;
 }
+
+
 }
 
 /* Media query 556px to 999px */

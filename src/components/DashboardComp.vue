@@ -237,6 +237,7 @@ export default {
   background-color: var(--awesome);
 }
 
+/* Media query for 555px and less */
 @media (max-width: 555px) {
   .panic-mode-section {
     text-transform: uppercase;

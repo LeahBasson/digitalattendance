@@ -108,6 +108,19 @@
   padding: 1rem;
   margin-left: 0rem;
 }
+
+.heading {
+  width: 95%;
+  height: 220px;
+  background-color: var(--alternative);
+  margin: auto;
+  text-align: center;
+  padding-top: 0rem;
+  padding: 3.2rem;
+  margin-top: 0.5rem;
+  border-radius: 2rem;
+  color: var(--secondary);
+}
 }
 
 /* Media query 556px to 999px */
