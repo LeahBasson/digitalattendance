@@ -27,7 +27,6 @@
     StatusTable,
   },
     computed: {
-      // Check the query parameter to determine what to show
       showFullView() {
         return this.$route.query.fullView === "true";
       },

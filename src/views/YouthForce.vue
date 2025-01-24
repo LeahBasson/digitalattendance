@@ -80,7 +80,6 @@ export default {
 .badge-display{
   width: 93%;
   margin: auto;
-  /* background-color: pink; */
   margin-top: 1rem;
   display: flex;
   justify-content: end;

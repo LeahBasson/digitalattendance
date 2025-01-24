@@ -88,8 +88,6 @@ export default {
 };
 </script>
 
-
-
 <style>
 .stopwatch{
  background-color: none;
