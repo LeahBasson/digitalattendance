@@ -100,9 +100,9 @@
 
 <script>
 import PanicMode from './PanicMode.vue';
-import { useCookies } from 'vue3-cookies'; // Correctly import cookies
+import { useCookies } from 'vue3-cookies'; 
 import { useRouter } from 'vue-router';
-import Swal from 'sweetalert2'; // Import SweetAlert
+import Swal from 'sweetalert2'; 
 
 export default {
   name: "DashboardComp",
@@ -130,7 +130,7 @@ export default {
           router.push({ name: 'login' }); // Redirect to the login page
           setTimeout(() => {
             location.reload(); // Refresh the page after redirecting
-          }, 1000); // Adjust the timeout as needed
+          }, 1000); 
 
           Swal.fire({
             title: 'Logged Out',

@@ -14,7 +14,7 @@
       </div>
       <p class="toggle-label">Disabled</p>
     </div>
-    <div v-if="!isRight" class="stopwatch-container">
+    <div v-if="stopwatchVisible" class="stopwatch-container">
       <Stopwatch ref="stopwatch" />
     </div>
   </div>
@@ -22,7 +22,8 @@
 
 <script>
 import Stopwatch from './StopwatchComp.vue';
-import { nextTick } from 'vue'; // Import nextTick
+import { nextTick } from 'vue';
+
 export default {
   components: {
     Stopwatch
@@ -30,20 +31,23 @@ export default {
   data() {
     return {
       isRight: true, // Default state (Disabled)
+      stopwatchVisible: false, // To control the visibility of the stopwatch
       iframes: ['Iframe 1', 'Iframe 2', 'Iframe 3'],
       selectedIframes: []
     };
   },
   created() {
-    // Check localStorage for the saved state
     const savedState = localStorage.getItem("panicMode");
+    const savedStopwatchVisibility = localStorage.getItem("stopwatchVisible");
     if (savedState !== null) {
       this.isRight = JSON.parse(savedState); // Parse saved state as boolean
       if (!this.isRight) {
-        // Start the stopwatch if Panic Mode is enabled
-        nextTick(() => {
-          this.$refs.stopwatch.startStopwatch();
-        });
+        this.stopwatchVisible = JSON.parse(savedStopwatchVisibility);
+        if (this.stopwatchVisible) {
+          nextTick(() => {
+            this.$refs.stopwatch.startStopwatch();
+          });
+        }
       }
     }
   },
@@ -51,13 +55,21 @@ export default {
     async toggle() {
       this.isRight = !this.isRight; // Toggle between Enabled and Disabled
       localStorage.setItem("panicMode", JSON.stringify(this.isRight)); // Save the new state
-      // Wait for the DOM to update before accessing the ref
+
       if (!this.isRight) {
+        this.stopwatchVisible = true; // Show the stopwatch
+        localStorage.setItem("stopwatchVisible", true);
         await nextTick(); // Wait for the DOM to render the Stopwatch component
         this.$refs.stopwatch.resetStopwatch(); // Reset the stopwatch
         this.$refs.stopwatch.startStopwatch(); // Start the stopwatch
       } else {
-        this.$refs.stopwatch.stopStopwatch(); // Stop the stopwatch when Panic Mode is disabled
+        // Stop the stopwatch and then display it for 5 seconds before hiding
+        this.$refs.stopwatch.stopStopwatch(); // Stop the stopwatch
+        localStorage.setItem("stopwatchVisible", true);
+        setTimeout(() => {
+          this.stopwatchVisible = false; // Hide the stopwatch after 5 seconds
+          localStorage.setItem("stopwatchVisible", false);
+        }, 5000); // 5000ms = 5 seconds
       }
     },
   },
@@ -114,38 +126,37 @@ export default {
 }
 .stopwatch-container {
   position: absolute;
-  top: 120px; /* Adjust as needed */
-  right: 120px; /* Adjust as needed */
+  top: 120px; 
+  right: 120px; 
   padding: 10px;
   border-radius: 5px;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 1000; 
 }
 .stopwatch-container h2,
 .stopwatch-container p {
-  color: var(--primary); /* Match text color to your theme */
+  color: var(--primary); 
 }
 
 @media (max-width: 555px) {
   .stopwatch-container {
   position: absolute;
-  top: 230px; /* Adjust as needed */
-  right: 140px; /* Adjust as needed */
+  top: 230px;
+  right: 140px; 
   padding: 10px;
   border-radius: 5px;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 1000; 
 }
 }
-
 
 /* Media query 556px to 999px */
 @media (min-width: 556px) and (max-width: 999px) {
   .stopwatch-container {
   position: absolute;
-  top: 245px; /* Adjust as needed */
-  right: 330px; /* Adjust as needed */
+  top: 245px; 
+  right: 330px; 
   padding: 10px;
   border-radius: 5px;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 1000; 
 }
 }
 
@@ -153,11 +164,11 @@ export default {
 @media (width: 1920px){
   .stopwatch-container {
   position: absolute;
-  top: 120px; /* Adjust as needed */
-  right: 160px; /* Adjust as needed */
+  top: 120px; 
+  right: 160px; 
   padding: 10px;
   border-radius: 5px;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 1000; 
 }
 }
 </style>
