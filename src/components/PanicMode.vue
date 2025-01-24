@@ -141,7 +141,7 @@ export default {
   .stopwatch-container {
   position: absolute;
   top: 230px;
-  right: 140px; 
+  right: 135px; 
   padding: 10px;
   border-radius: 5px;
   z-index: 1000; 

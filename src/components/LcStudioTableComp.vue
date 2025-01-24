@@ -81,7 +81,7 @@ onMounted(()=>{
   setInterval(() => {
       store.dispatch("fetchLogStatus")   
 
-  }, 2500);
+  }, 30000);
 })
 
 // Awodwa patch

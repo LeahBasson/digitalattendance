@@ -174,4 +174,11 @@ export default {
   padding-left: 10px;
   color: rgb(182, 0, 0);
 }
+
+/* Media query for 555px and less */
+@media (max-width: 555px) {
+  .form-group input::placeholder{
+    font-size: 1.2rem;
+  }
+}
 </style>
