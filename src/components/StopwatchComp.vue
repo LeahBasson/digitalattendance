@@ -1,9 +1,6 @@
 <template>
   <div class="stopwatch">
     <label>{{ formattedTime }}</label>
-    <!-- <button @click="startStopwatch">Start</button>
-    <button @click="stopStopwatch">Stop</button>
-    <button @click="resetStopwatch">Reset</button> -->
   </div>
 </template>
 
@@ -59,6 +56,10 @@ export default {
         clearInterval(this.intervalId); // Clear the interval
         this.intervalId = null; // Reset the interval ID
       }
+    },
+    // Fetches the formatted elapsed time
+    getElapsedTime() {
+      return this.formattedTime; // Return the computed formatted time
     }
   },
   created() {
@@ -89,18 +90,25 @@ export default {
 </script>
 
 <style>
-.stopwatch{
- background-color: none;
- border: 1px solid var(--guestColor);
- padding: 0.5rem 1.5rem;
- width: 6rem;
- color: var(--primary);
- border-radius: 0.8rem;
- animation: redBlur 2s infinite;
+.stopwatch {
+  background-color: var(--secondary);
+  border: 1px solid var(--guestColor);
+  padding: 0.5rem 1.5rem;
+  width: 6rem;
+  color: var(--primary);
+  border-radius: 0.8rem;
+  animation: redBlur 2s infinite;
 }
 
-@keyframes redBlur { 
-  0% { box-shadow: 0 0 5px 5px rgba(255, 0, 0, 0); } 
-  50% { box-shadow: 0 0 10px 10px rgba(255, 0, 0, 0.7); } 
-  100% { box-shadow: 0 0 5px 5px rgba(255, 0, 0, 0); } }
+@keyframes redBlur {
+  0% {
+    box-shadow: 0 0 5px 5px rgba(255, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 10px 10px rgba(255, 0, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 5px 5px rgba(255, 0, 0, 0);
+  }
+}
 </style>

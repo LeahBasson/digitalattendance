@@ -1,4 +1,3 @@
-Date Time
 <template>
     <div class="date-time-display text-white">
       <span>{{ formattedDate }}</span>

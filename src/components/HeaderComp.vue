@@ -36,6 +36,7 @@
   <style>
   .header-section {
     background-color: var(--primary);
+    position: fixed;
   }
 
   .header-content-container{
@@ -79,6 +80,10 @@
     margin: auto;
   }
 
+  .header-section{
+    z-index: 2;
+  }
+
     .pm-section{
       display: none;
     }
@@ -102,6 +107,10 @@
     justify-content: space-between;
     width: 80%;
     margin: auto;
+  }
+
+  .header-section{
+    z-index: 2;
   }
 
   .pm-section{

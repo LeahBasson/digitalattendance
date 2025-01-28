@@ -23,17 +23,16 @@
 <script>
 import Stopwatch from './StopwatchComp.vue';
 import { nextTick } from 'vue';
+import Swal from 'sweetalert2';
 
 export default {
   components: {
-    Stopwatch
+    Stopwatch,
   },
   data() {
     return {
       isRight: true, // Default state (Disabled)
       stopwatchVisible: false, // To control the visibility of the stopwatch
-      iframes: ['Iframe 1', 'Iframe 2', 'Iframe 3'],
-      selectedIframes: []
     };
   },
   created() {
@@ -53,28 +52,39 @@ export default {
   },
   methods: {
     async toggle() {
-      this.isRight = !this.isRight; // Toggle between Enabled and Disabled
-      localStorage.setItem("panicMode", JSON.stringify(this.isRight)); // Save the new state
+  this.isRight = !this.isRight; // Toggle between Enabled and Disabled
+  localStorage.setItem("panicMode", JSON.stringify(this.isRight)); // Save the new state
 
-      if (!this.isRight) {
-        this.stopwatchVisible = true; // Show the stopwatch
-        localStorage.setItem("stopwatchVisible", true);
-        await nextTick(); // Wait for the DOM to render the Stopwatch component
-        this.$refs.stopwatch.resetStopwatch(); // Reset the stopwatch
-        this.$refs.stopwatch.startStopwatch(); // Start the stopwatch
-      } else {
-        // Stop the stopwatch and then display it for 5 seconds before hiding
-        this.$refs.stopwatch.stopStopwatch(); // Stop the stopwatch
-        localStorage.setItem("stopwatchVisible", true);
-        setTimeout(() => {
-          this.stopwatchVisible = false; // Hide the stopwatch after 5 seconds
-          localStorage.setItem("stopwatchVisible", false);
-        }, 5000); // 5000ms = 5 seconds
-      }
-    },
+  if (!this.isRight) {
+    this.stopwatchVisible = true; // Show the stopwatch
+    localStorage.setItem("stopwatchVisible", true);
+    await nextTick(); // Wait for the DOM to render the Stopwatch component
+    this.$refs.stopwatch.resetStopwatch(); // Reset the stopwatch
+    this.$refs.stopwatch.startStopwatch(); // Start the stopwatch
+  } else {
+    // Stop the stopwatch, fetch the elapsed time, and show it
+    this.$refs.stopwatch.stopStopwatch();
+    const elapsedTime = this.$refs.stopwatch.getElapsedTime(); // Assume getElapsedTime() returns formatted time
+    localStorage.setItem("stopwatchVisible", true);
+
+    // Use a SweetAlert modal to display the elapsed time
+    Swal.fire({
+      title: "Time Completed!",
+      text: `Elapsed Time: ${elapsedTime}`,
+      icon: "info",
+      confirmButtonColor: '#5A682C',
+      confirmButtonText: "OK",
+    });
+
+    // Immediately hide the stopwatch
+    this.stopwatchVisible = false;
+    localStorage.setItem("stopwatchVisible", false);
+  }
+},
   },
 };
 </script>
+
 
 <style>
 .panic-mode h6 {
@@ -144,7 +154,7 @@ export default {
   right: 135px; 
   padding: 10px;
   border-radius: 5px;
-  z-index: 1000; 
+  z-index: 1; 
 }
 }
 
@@ -156,7 +166,7 @@ export default {
   right: 330px; 
   padding: 10px;
   border-radius: 5px;
-  z-index: 1000; 
+  z-index: 1; 
 }
 }
 

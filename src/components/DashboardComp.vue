@@ -186,7 +186,7 @@ export default {
   width: 95%;
   justify-content: space-between;
   margin: auto;
-  margin-top: 6rem;
+  margin-top: 10rem;
   margin-bottom: 2rem;
 }
 
@@ -245,6 +245,7 @@ export default {
     color: var(--primary);
     margin: auto;
     display: block;
+    margin-top: 8rem;
   }
 
   .dash-content {
@@ -285,6 +286,7 @@ export default {
     color: var(--primary);
     margin: auto;
     display: block;
+    margin-top: 8rem;
   }
 
   .dash-content {
@@ -325,7 +327,7 @@ export default {
     width: 91%;
     justify-content: space-between;
     margin: auto;
-    margin-top: 4rem;
+    margin-top: 10rem;
     margin-bottom: 2rem;
   }
 }
