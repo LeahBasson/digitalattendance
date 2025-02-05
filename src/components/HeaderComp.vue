@@ -4,7 +4,7 @@
 
         <div class="dash-logo">
         <a href="#home">
-          <img class="img-fluid" src="https://leahbasson.github.io/MyImages/dats/lc-logo.png" alt="logo" loading="eager">
+          <img class="img-fluid" src="https://leahbasson.github.io/MyImages/projects/lc-logo.png" alt="logo" loading="eager">
         </a>
       </div>
 
