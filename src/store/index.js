@@ -197,13 +197,13 @@ const store = createStore({
         if (results) {
           context.commit('setLogStatus', results);
         } else {
-          toast.error(`${msg}`, {
+          toast.warning(`${msg}`, {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
         }
       } catch (e) {
-        toast.error(`${e.message}`, {
+        toast.warning(`${e.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
