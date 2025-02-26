@@ -85,13 +85,13 @@ export default {
 };
 </script>
 
-
 <style>
 .panic-mode h6 {
   text-transform: uppercase;
   font-weight: 600;
   text-align: center;
 }
+
 /* Toggle switch container */
 .toggle-switch {
   width: 50px;
@@ -105,11 +105,14 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: -1rem;
+  position: relative;
 }
+
 /* When the toggle is in the Disabled state */
 .toggle-switch.right {
   background-color: #ccc;
 }
+
 /* Toggle knob */
 .toggle-knob {
   width: 19px;
@@ -118,10 +121,12 @@ export default {
   border-radius: 50%;
   transition: transform 0.3s ease;
 }
+
 /* When the toggle is Disabled, move the knob to the right */
 .toggle-knob.right {
   transform: translateX(25px);
 }
+
 /* Container for toggle and labels */
 .toggle-display {
   display: flex;
@@ -129,33 +134,44 @@ export default {
   justify-content: center;
   gap: 10px;
   margin-top: 0.8rem;
+  position: relative;
+  z-index: 9999 !important;
 }
+
 .toggle-label {
   font-size: 0.9rem;
   text-transform: none;
 }
+
 .stopwatch-container {
-  position: absolute;
-  top: 120px; 
-  right: 100px; 
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 1000; 
-}
-.stopwatch-container h2,
-.stopwatch-container p {
-  color: var(--primary); 
+  position: fixed !important;
+  top: 7rem !important;
+  right: 2rem !important;
+  padding: 10px !important;
+  border-radius: 5px !important;
+  z-index: 9999 !important;
+  background: transparent !important;
 }
 
-@media (max-width: 555px) {
-  .stopwatch-container {
-  position: absolute;
-  top: 230px;
-  right: 135px; 
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 1; 
+.stopwatch-container h2,
+.stopwatch-container p {
+  color: var(--primary);
 }
+
+/* Ensure the entire panic mode section stays above search */
+.panic-mode {
+  position: relative;
+  z-index: 9999 !important;
+}
+
+.toggle-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 0.8rem;
+  position: relative;
+  z-index: 9999 !important;
 }
 
 /* Media query 556px to 999px */

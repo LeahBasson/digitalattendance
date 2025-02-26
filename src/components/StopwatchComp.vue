@@ -98,6 +98,13 @@ export default {
   color: var(--primary);
   border-radius: 0.8rem;
   animation: redBlur 2s infinite;
+  position: relative;
+  z-index: 9999 !important;
+}
+
+.stopwatch-container {
+  position: relative;
+  z-index: 9999 !important;
 }
 
 @keyframes redBlur {
