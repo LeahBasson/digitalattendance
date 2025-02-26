@@ -45,8 +45,8 @@ import { computed, ref, onMounted, watch } from 'vue';
 
 const store = useStore();
 const logStatus = computed(() => store.state.logStatus || []);
-console.log(logStatus.value);
-console.log("hey");
+// console.log(logStatus.value);
+// console.log("hey");
 
 
 const filterStatus = ref(null);

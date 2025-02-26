@@ -3,7 +3,7 @@
     <section class="row">
       <HeaderComp />
     </section>
-    <section class="row" id="home">
+    <section class="row" id="home" style="min-height: 100dvh;">
       <DashboardComp />
     </section>
     <section class="row">
@@ -26,3 +26,5 @@ export default {
   }
 }
 </script>
+
+

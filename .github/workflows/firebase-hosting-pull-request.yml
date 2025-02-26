@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+      - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LCDIGITALATTENDANCE }}
-          projectId: lcdigitalattendance
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LC_DIGITAL_TAGGING_SYSTEM }}
+          projectId: lc-digital-tagging-system

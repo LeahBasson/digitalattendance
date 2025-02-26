@@ -70,12 +70,12 @@ export default {
         // Fetch users
         const usersResponse = await fetch('https://attendance-tagging-system.lcstudio.co.za/user.php?endpoint=users');
         const usersData = await usersResponse.json();
-        console.log('Users data:', usersData);
+        // console.log('Users data:', usersData);
         
         // Fetch status from the same API
         const statusResponse = await fetch('https://attendance-tagging-system.lcstudio.co.za/logs.php?endpoint=status');
         const statusData = await statusResponse.json();
-        console.log('Status data:', statusData);
+        // console.log('Status data:', statusData);
         
         // Create a map of user_id to their status
         const statusMap = {};
@@ -92,7 +92,7 @@ export default {
             isOnsite: statusMap[user.user_id] || false,
             fullName: `${user.first_name} ${user.last_name}`
           }));
-          console.log('Combined users data:', users.value);
+          // console.log('Combined users data:', users.value);
         }
 
       } catch (error) {
@@ -103,13 +103,13 @@ export default {
     onMounted(() => {
       fetchUsers();
       // Refresh data every 30 seconds
-      setInterval(fetchUsers, 30000);
+      setInterval(fetchUsers, 2000);
     });
 
     const filteredUsers = computed(() => {
       const search = searchTerm.value.toLowerCase().trim();
-      console.log('Search term:', search);
-      console.log('Current users:', users.value);
+      // console.log('Search term:', search);
+      // console.log('Current users:', users.value);
       
       if (!search) return [];
       
@@ -120,7 +120,7 @@ export default {
         user?.fullName?.toLowerCase().includes(search)
       );
       
-      console.log('Filtered users:', filtered);
+      // console.log('Filtered users:', filtered);
       return filtered;
     });
 

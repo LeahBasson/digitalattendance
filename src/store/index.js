@@ -68,7 +68,7 @@ const store = createStore({
     },
     async loginUser(context, loginObj) {
       try {
-        console.log(loginObj);
+        // console.log(loginObj);
         const apiUrl = 'https://attendance-tagging-system.lcstudio.co.za/user.php'
 
         const res = await axios.post(apiUrl, null, {
@@ -80,11 +80,9 @@ const store = createStore({
             })
           }})
 
-        console.log('here');
-        console.log( res, router);
+        // console.log('here');
+        // console.log( res, router);
         
-        
-
         if (res.data) {
           const { message, result } = res.data;
           if (result) {
@@ -228,7 +226,7 @@ const store = createStore({
     async fetchLogStatus(context) {
       try {
         const response = await axios.get(`${apiUrl}logs.php?endpoint=status`);
-        console.log("Fetched log status:", response.data);
+        // console.log("Fetched log status:", response.data);
         
         if (response.data && response.data.result) {
           // Use the result array from the response
