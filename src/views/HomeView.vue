@@ -12,19 +12,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import HeaderComp from '@/components/HeaderComp.vue' 
 import DashboardComp from '@/components/DashboardComp.vue';
 import FooterComp from '@/components/FooterComp.vue'
 
-export default {
-  name: 'HomeView',
-  components: {
-    HeaderComp,
-    DashboardComp,
-    FooterComp
-  }
-}
+
+
 </script>
 
 
