@@ -1,15 +1,14 @@
 <template>
-  <div class="badge-display">
-    <span class="custom-badge">{{ filteredCount }}</span>
-  </div>
-
-  <div class="filter-container">
-    <button @click="toggleFilter" class="filter-button">
-      <span class="filter-icon">&#x1F50D; Filter:</span> {{ filterStatus || 'All' }}
-    </button>
-  </div>
-
   <div class="table-container">
+    <div class="table-header">
+      <button class="filter-button" @click="toggleFilter">
+        <span class="filter-icon">&#x1F50D; Filter:</span> {{ filterStatus || 'All' }}
+      </button>
+      <div class="badge">
+        {{ filteredCount }} Users
+      </div>
+    </div>
+
     <div class="table-heading">
       <div>
         <p>Fullname</p>
@@ -85,20 +84,15 @@ const isLoading = ref(false);
 const error = ref(null);
 
 const logStatus = computed(() => store.state.logStatus || []);
-const filteredLogStatus = computed(() => {
-  return (logStatus.value || [])
-    .filter(status => status.department === 'Life Choices Studio')
-    .sort((a, b) => new Date(b.latest_log_time) - new Date(a.latest_log_time));
+const displayedLogStatus = computed(() => {
+  if (!filterStatus.value) return logStatus.value;
+  return logStatus.value.filter(status => 
+    status?.status?.trim().toLowerCase() === filterStatus.value.toLowerCase()
+  );
 });
 
 const filteredCount = computed(() => {
-  if (!filterStatus.value) return filteredLogStatus.value.length;
-  return filteredLogStatus.value.filter(status => status?.status?.trim().toLowerCase() === filterStatus.value.toLowerCase()).length;
-});
-
-const displayedLogStatus = computed(() => {
-  if (!filterStatus.value) return filteredLogStatus.value;
-  return filteredLogStatus.value.filter(status => status?.status?.trim().toLowerCase() === filterStatus.value.toLowerCase());
+  return displayedLogStatus.value.length;
 });
 
 const toggleFilter = () => {
@@ -202,24 +196,39 @@ const formatDateTime = (timestamp) => {
   margin-bottom: 1rem;
 }
 
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .filter-button {
   background-color: rgb(74, 106, 38);
   color: white;
   border: none;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  border-radius: 5px;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+  order: 1;
 }
 
 .filter-button:hover {
   background-color: rgb(121, 170, 64);
 }
 
-.filter-icon {
-  margin-right: 0.5rem;
+.badge {
+  background-color: rgb(74, 106, 38);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  order: 2;
 }
 
 .table-container {
@@ -291,7 +300,7 @@ const formatDateTime = (timestamp) => {
 .no-data {
   text-align: center;
   font-size: 1.2rem;
-  color: gray;
+  color: var(--guestColor);
   margin-top: 1rem;
 }
 
@@ -354,27 +363,6 @@ const formatDateTime = (timestamp) => {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-height: 60vh;
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-.attendance-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.attendance-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.attendance-list::-webkit-scrollbar-thumb {
-  background: #4a6a26;
-  border-radius: 4px;
-}
-
-.attendance-list::-webkit-scrollbar-thumb:hover {
-  background: #79aa40;
 }
 
 .attendance-item {
@@ -395,8 +383,8 @@ const formatDateTime = (timestamp) => {
 
 .no-records {
   text-align: center;
-  color: #666;
   padding: 20px;
+  color: #666;
 }
 
 .loading {
@@ -426,9 +414,17 @@ const formatDateTime = (timestamp) => {
   }
 }
 
-@media (min-width: 556px) and (max-width: 999px) {
-  .table-heading p {
-    font-size: 1.2rem;
-  }
+.custom-badge {
+  background-color: rgb(74, 106, 38);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.badge-display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 </style>
