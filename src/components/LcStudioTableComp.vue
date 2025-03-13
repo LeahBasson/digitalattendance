@@ -52,8 +52,8 @@
           {{ error }}
         </div>
         <div v-else-if="attendanceRecords.length" class="attendance-list">
-          <div class="records-count">Total Records: {{ attendanceRecords.length }}</div>
-          <div v-for="(record, index) in attendanceRecords" :key="index" class="attendance-item">
+          <div class="records-count">Showing Latest {{ Math.min(30, attendanceRecords.length) }} of {{ attendanceRecords.length }} Records</div>
+          <div v-for="(record, index) in limitedAttendanceRecords" :key="index" class="attendance-item">
             <div class="attendance-time">
               <strong>Time Stamp:</strong> {{ formatDateTime(record['Time Stamp']) }}
             </div>
@@ -61,6 +61,9 @@
               <p><strong>Name:</strong> {{ record.first_name }} {{ record.last_name }}</p>
               <p><strong>Department:</strong> {{ record.department }}</p>
             </div>
+          </div>
+          <div v-if="attendanceRecords.length > 30" class="export-message">
+            Export logs to see other time stamps
           </div>
         </div>
         <div v-else class="no-records">
@@ -99,6 +102,10 @@ const filteredCount = computed(() => {
 const displayedLogStatus = computed(() => {
   if (!filterStatus.value) return filteredLogStatus.value;
   return filteredLogStatus.value.filter(status => status?.status?.trim().toLowerCase() === filterStatus.value.toLowerCase());
+});
+
+const limitedAttendanceRecords = computed(() => {
+  return attendanceRecords.value.slice(0, 30);
 });
 
 const toggleFilter = () => {
@@ -418,6 +425,15 @@ const formatDateTime = (timestamp) => {
   margin-bottom: 15px;
   font-weight: bold;
   color: #4a6a26;
+}
+
+.export-message {
+  text-align: center;
+  padding: 15px;
+  color: rgb(74, 106, 38);
+  font-style: italic;
+  border-top: 1px solid #eee;
+  margin-top: 10px;
 }
 
 @media (max-width: 555px) {

@@ -60,7 +60,7 @@
 
     <div class="button-container">
       <button class="attendance-button" @click="openDatePicker">
-        Attendance<span><i class="bi bi-calendar"></i></span>
+        Export Logs<span><i class="bi bi-calendar"></i></span>
       </button>
       <button class="logout-button" @click="logOut">
         Logout<span><i class="bi bi-box-arrow-right"></i></span>
@@ -151,7 +151,7 @@
             {{ error }}
           </div>
           <div v-else-if="attendanceRecords.length" class="attendance-list">
-            <div class="records-count">Total Records: {{ attendanceRecords.length }}</div>
+            <div class="records-count">Total Logs: {{ attendanceRecords.length }}</div>
             <div v-for="(record, index) in attendanceRecords" :key="index" class="attendance-item">
               <div class="attendance-time">
                 <strong>Time Stamp:</strong> {{ formatDateTime(record['Time Stamp']) }}
@@ -163,7 +163,7 @@
             </div>
           </div>
           <div v-else class="no-records">
-            No attendance records found.
+            No log records found.
           </div>
         </div>
       </div>
