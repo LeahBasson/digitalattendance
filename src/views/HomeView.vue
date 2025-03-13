@@ -3,7 +3,7 @@
     <section class="row">
       <HeaderComp />
     </section>
-    <section class="row" id="home">
+    <section class="row" id="home" style="min-height: 100dvh;">
       <DashboardComp />
     </section>
     <section class="row">
@@ -12,17 +12,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import HeaderComp from '@/components/HeaderComp.vue' 
 import DashboardComp from '@/components/DashboardComp.vue';
 import FooterComp from '@/components/FooterComp.vue'
 
-export default {
-  name: 'HomeView',
-  components: {
-    HeaderComp,
-    DashboardComp,
-    FooterComp
-  }
-}
+
+
 </script>
+
+

@@ -1,40 +1,39 @@
 <template>
-  <div class="badge-display">
-      <span class="custom-badge">{{ filteredCount }}</span>
-  </div>
-
-  <div class="filter-container">
-      <button @click="toggleFilter" class="filter-button">
-          <span class="filter-icon">&#x1F50D;</span> Filter: {{ filterStatus || 'All' }}
-      </button>
-  </div>
-
   <div class="table-container">
-      <div class="table-heading">
-          <div>
-              <p>Fullname</p>
-          </div>
-          <div>
-              <p>Status</p>
-          </div>
+    <div class="table-header">
+      <button class="filter-button" @click="toggleFilter">
+        <span class="filter-icon">&#x1F50D; Filter:</span> {{ filterStatus || 'All' }}
+      </button>
+      <div class="badge">
+        {{ filteredCount }} Users
       </div>
+    </div>
 
-      <div class="table-border-btm"></div>
+    <div class="table-heading">
+      <div>
+        <p>Fullname</p>
+      </div>
+      <div>
+        <p>Status</p>
+      </div>
+    </div>
 
-      <div v-if="displayedLogStatus.length > 0">
-          <div class="table-content" v-for="status in displayedLogStatus" :key="status.user_id">
-              <div class="table-data-one">
-                  <p class="clickable-name" @click="showAttendanceDetails(status)">{{ status['Full Name'] }}</p>
-              </div>
-              <div class="table-data-two">
-                  <span :class="['status-icon', { 'onsite': status.status?.trim().toLowerCase() === 'on-site', 'offsite': status.status?.trim().toLowerCase() === 'off-site' }]"></span>
-                  <p>{{ status.status || 'Unknown' }}</p>
-              </div>
-          </div>
+    <div class="table-border-btm"></div>
+
+    <div v-if="displayedLogStatus.length > 0">
+      <div class="table-content" v-for="status in displayedLogStatus" :key="status.user_id">
+        <div class="table-data-one">
+          <p class="clickable-name" @click="showAttendanceDetails(status)">{{ status['Full Name'] }}</p>
+        </div>
+        <div class="table-data-two">
+          <span :class="['status-icon', { 'onsite': status.status?.trim().toLowerCase() === 'on-site', 'offsite': status.status?.trim().toLowerCase() === 'off-site' }]"> </span>
+          <p>{{ status.status || 'Unknown' }}</p>
+        </div>
       </div>
-      <div v-else>
-          <p class="no-data">No users found.</p>
-      </div>
+    </div>
+    <div v-else>
+      <p class="no-data">No users found.</p>
+    </div>
   </div>
 
   <!-- Attendance Details Modal -->
@@ -87,30 +86,16 @@ const attendanceRecords = ref([]);
 const isLoading = ref(false);
 const error = ref(null);
 
-const logStatus = computed(() => {
-  // console.log('Raw logStatus:', store.state.logStatus);
-  return store.state.logStatus || [];
-});
-
-const filteredLogStatus = computed(() => {
-  const filtered = (logStatus.value || [])
-    .filter(status => {
-      // console.log('Checking department:', status?.department);
-      return status?.department === 'Life Choices Academy C2';
-    })
-    .sort((a, b) => new Date(b.latest_log_time) - new Date(a.latest_log_time));
-  // console.log('Filtered results:', filtered);
-  return filtered;
+const logStatus = computed(() => store.state.logStatus || []);
+const displayedLogStatus = computed(() => {
+  if (!filterStatus.value) return logStatus.value;
+  return logStatus.value.filter(status => 
+    status?.status?.trim().toLowerCase() === filterStatus.value.toLowerCase()
+  );
 });
 
 const filteredCount = computed(() => {
-  if (!filterStatus.value) return filteredLogStatus.value.length;
-  return filteredLogStatus.value.filter(status => status?.status?.trim().toLowerCase() === filterStatus.value.toLowerCase()).length;
-});
-
-const displayedLogStatus = computed(() => {
-  if (!filterStatus.value) return filteredLogStatus.value;
-  return filteredLogStatus.value.filter(status => status?.status?.trim().toLowerCase() === filterStatus.value.toLowerCase());
+  return displayedLogStatus.value.length;
 });
 
 const limitedAttendanceRecords = computed(() => {
@@ -169,7 +154,6 @@ watch(logStatus, async () => {
   throttledUpdateData();
 });
 
-// eslint-disable-next-line no-unused-vars
 const showAttendanceDetails = async (user) => {
   selectedUser.value = user;
   isLoading.value = true;
@@ -214,75 +198,77 @@ const formatDateTime = (timestamp) => {
 
 <style scoped>
 .filter-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .filter-button {
-    background-color: rgb(74, 106, 38);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
+  background-color: rgb(74, 106, 38);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  order: 1;
 }
 
 .filter-button:hover {
-    background-color: rgb(121, 170, 64);
+  background-color: rgb(121, 170, 64);
 }
 
-.filter-icon {
-    margin-right: 0.5rem;
+.badge {
+  background-color: rgb(74, 106, 38);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  order: 2;
 }
 
 .table-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 4rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 4rem;
 }
 
 .table-heading {
-    display: flex;
-    justify-content: space-between;
-    width: 94%;
-    margin: auto;
-    margin-top: 1rem;
-}
-
-.table-border-btm {
-    width: 94%;
-    height: 1px;
-    background-color: var(--guestColor);
-    margin: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 94%;
+  margin: auto;
+  margin-top: 1rem;
 }
 
 .table-content {
-    display: flex;
-    justify-content: space-between;
-    width: 95%;
-    border-radius: 1rem;
-    margin: auto;
-    margin-top: 1rem;
-    background-color: var(--logColor);
-    padding: 1rem;
-}
-
-.table-data-one {
-    word-wrap: break-word;
-    width: 50%;
-    text-align: start;
-}
-
-.table-data-two {
-  width: 50%;
-  text-align: end;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  width: 95%;
+  border-radius: 1rem;
+  margin: auto;
+  margin-top: 1rem;
+  background-color: var(--logColor);
+  padding: 1rem;
+}
+
+.table-border-btm {
+  width: 94%;
+  height: 1px;
+  background-color: var(--guestColor);
+  margin: auto;
 }
 
 .status-icon {
@@ -293,28 +279,26 @@ const formatDateTime = (timestamp) => {
   display: inline-block;
 }
 
-
 .onsite {
-    background-color: green;
+  background-color: green;
 }
 
 .offsite {
-    background-color: red;
+  background-color: red;
 }
 
-/* .custom-badge {
-    background-color: rgb(74, 106, 38);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    font-size: 1rem;
+.table-data-one {
+  word-wrap: break-word;
+  width: 50%;
+  text-align: start;
 }
 
-.badge-display {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-} */
+.table-data-two {
+  width: 50%;
+  text-align: end;
+  display: flex;
+  justify-content: end;
+}
 
 .table-content {
   font-size: 1rem;
@@ -386,27 +370,6 @@ const formatDateTime = (timestamp) => {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-height: 60vh;
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-.attendance-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.attendance-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.attendance-list::-webkit-scrollbar-thumb {
-  background: #4a6a26;
-  border-radius: 4px;
-}
-
-.attendance-list::-webkit-scrollbar-thumb:hover {
-  background: #79aa40;
 }
 
 .attendance-item {
@@ -423,6 +386,12 @@ const formatDateTime = (timestamp) => {
 
 .attendance-info p {
   margin: 5px 0;
+}
+
+.no-records {
+  text-align: center;
+  padding: 20px;
+  color: #666;
 }
 
 .loading {
@@ -459,5 +428,19 @@ const formatDateTime = (timestamp) => {
   .table-heading p {
     font-size: 1.2rem;
   }
+}
+
+.custom-badge {
+  background-color: rgb(74, 106, 38);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.badge-display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 </style>

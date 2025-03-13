@@ -5,12 +5,20 @@ import 'vue3-toastify/dist/index.css';
 import { applyToken } from '../service/AuthenticatedUser.js';
 import { useCookies } from 'vue3-cookies';
 import router from '@/router';
+
+
 const { cookies } = useCookies();
-const apiUrl = "https://a-t-app-backend.onrender.com/";
+const apiUrl = "https://attendance-tagging-system.lcstudio.co.za/";
+
+// Configure axios defaults
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Accept'] = 'application/json';
+
 const savedUser = cookies.get('LegitUser');
 if (savedUser && savedUser?.token) {
   applyToken(savedUser.token);
 }
+
 const store = createStore({
   state() {
     return {
@@ -43,7 +51,7 @@ const store = createStore({
       try {
         const token = cookies.get("LegitUser")?.token;
         if (!token) return;
-        const { result } = await axios.get(`${apiUrl}users/account`, {
+        const { result } = await axios.get(`${apiUrl}user.php?endpoint=users`, {
           headers: { Authorization: `Bearer ${token}` },
         }).data;
         if (result) {
@@ -60,47 +68,77 @@ const store = createStore({
     },
     async loginUser(context, loginObj) {
       try {
-        const response = await axios.post(`${apiUrl}admin/login`, loginObj);
-        const { msg, result, token } = response.data || {};
-        if (result) {
-          toast.success(`${msg}:kissing_heart:`, {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
-          context.commit("setUser", result);
-          cookies.set("LegitUser", { token, msg, result });
-          applyToken(token);
-          
-          console.log("here");
-          
-          router.push({ name: "home" }); // Ensure redirection to dashboard
-        } else {
-          toast.error(`${msg}`, {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
+        // console.log(loginObj);
+        const apiUrl = 'https://attendance-tagging-system.lcstudio.co.za/user.php'
+
+        const res = await axios.post(apiUrl, null, {
+          params: {
+            endpoint: "login",
+            payLoad: JSON.stringify({
+              password: loginObj.user_pass,
+              email: loginObj.email_add
+            })
+          }})
+
+        // console.log('here');
+        // console.log( res, router);
+        
+        if (res.data) {
+          const { message, result } = res.data;
+          if (result) {
+            toast.success(`${message}`, {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            context.commit("setUser", result);
+            cookies.set("LegitUser", { token: "sajfhkjfahfkhkhkoq3979148jhoqeryr39yrqourqhkajfufy9qr", result });
+            // applyToken(token);
+            setTimeout(() => {
+              router.push({ name: "home" });
+            }, 2000);
+          } else {
+            toast.error(`Invalid credentials`, {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+          }
         }
-      } catch (e) {
-        console.error('Login error:', e);
-        toast.error(`Error during login: ${e.message}`, {
-          autoClose: 2000,
+      } catch (error) {
+        console.error('Login error:', error);
+        let errorMessage = 'Error during login';
+        
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          errorMessage = error.response.data?.msg || `Server error: ${error.response.status}`;
+        } else if (error.request) {
+          // The request was made but no response was received
+          errorMessage = 'No response from server. Please check your internet connection.';
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          errorMessage = error.message;
+        }
+        
+        toast.error(errorMessage, {
+          autoClose: 3000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
       }
     },
     async fetchUsers(context) {
       try {
-        const { results, msg } = await axios.get(`${apiUrl}users`).data;
-        if (results) {
-          context.commit("setUsers", results);
+        const response = await axios.get(`${apiUrl}user.php?endpoint=users`);
+        if (response.data) {
+          context.commit("setUsers", response.data);
         } else {
-          toast.error(`${msg}`, {
+          toast.error('Failed to fetch users', {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
         }
-      } catch (e) {
-        toast.error(`${e.message}`, {
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        toast.error(`Error fetching users: ${error.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
@@ -108,68 +146,59 @@ const store = createStore({
     },
     async fetchUser(context, id) {
       try {
-        const { result, msg } = await axios.get(`${apiUrl}users/${id}`).data;
-        if (result) {
-          context.commit("setUser", result);
-        } else {
-          toast.error(`${msg}`, {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
+        const response = await axios.get(`${apiUrl}user.php?endpoint=users&id=${id}`);
+        if (response.data) {
+          return response.data;
         }
-      } catch (e) {
-        toast.error(`${e.message}`, {
+        return null;
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        toast.error(`Error fetching user: ${error.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
+        return null;
       }
     },
-    async updateUser(context, payload) {
+    async updateUser(context, { id, payload }) {
       try {
-        const { msg, err } = await axios.patch(`${apiUrl}users/${payload.user_id}`, payload).data;
-        if (msg) {
-          context.dispatch("fetchUsers");
-          toast.success(`${msg}`, {
+        const response = await axios.patch(`${apiUrl}user.php?endpoint=users&id=${id}`, payload);
+        if (response.data) {
+          toast.success('User updated successfully', {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
-          cookies.set("LegitUser", {
-            token: savedUser.token,
-            result: payload,
-          });
-          setTimeout(() => {
-            location.reload();
-          }, 3000);
-        } else {
-          toast.error(`${err}`, {
-            autoClose: 2000,
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
+          context.dispatch('fetchUsers');
+          return true;
         }
-      } catch (e) {
-        toast.error(`${e.message}`, {
+        return false;
+      } catch (error) {
+        console.error('Error updating user:', error);
+        toast.error(`Error updating user: ${error.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
+        return false;
       }
     },
     async deleteUser(context, id) {
       try {
-        const { msg, err } = await axios.delete(`${apiUrl}users/${id}`).data;
-        if (msg) {
-          context.dispatch("fetchUsers");
-          toast.success(`${msg}`, {
+        const response = await axios.delete(`${apiUrl}user.php?endpoint=users&id=${id}`);
+        if (response.data) {
+          context.dispatch('fetchUsers');
+          toast.success('User deleted successfully', {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
         } else {
-          toast.error(`${err}`, {
+          toast.error('Failed to delete user', {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
         }
-      } catch (e) {
-        toast.error(`${e.message}`, {
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        toast.error(`Error deleting user: ${error.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
@@ -177,14 +206,18 @@ const store = createStore({
     },
     async fetchLogs(context) {
       try {
-        const { results } = await axios.get(`${apiUrl}logs`).data;
-        if (results) {
-          context.commit('setLogs', results);
+        const response = await axios.get(`${apiUrl}logs.php?endpoint=logs`);
+        if (response.data) {
+          context.commit("setLogs", response.data);
         } else {
-          router.push({ name: 'login' });
+          toast.error('Failed to fetch logs', {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
         }
-      } catch (err) {
-        toast.error(`${err}`, {
+      } catch (error) {
+        console.error('Error fetching logs:', error);
+        toast.error(`Error fetching logs: ${error.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
@@ -192,23 +225,48 @@ const store = createStore({
     },
     async fetchLogStatus(context) {
       try {
-        const res = await axios.get(`${apiUrl}logs/status`);
-        const { results, msg } = res.data;
-        if (results) {
-          context.commit('setLogStatus', results);
+        const response = await axios.get(`${apiUrl}logs.php?endpoint=status`);
+        // console.log("Fetched log status:", response.data);
+        
+        if (response.data && response.data.result) {
+          // Use the result array from the response
+          const logStatusArray = Array.isArray(response.data.result) ? response.data.result : [response.data.result];
+          context.commit("setLogStatus", logStatusArray);
         } else {
-          toast.warning(`${msg}`, {
+          toast.error('Failed to fetch log status', {
             autoClose: 2000,
             position: toast.POSITION.BOTTOM_CENTER,
           });
         }
-      } catch (e) {
-        toast.warning(`${e.message}`, {
+      } catch (error) {
+        console.log('Error fetching log status:', error);
+        toast.warning(`Error fetching log status: ${error.message}`, {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_CENTER,
         });
       }
     },
+    async addLog(context, id) {
+      try {
+        const response = await axios.post(`${apiUrl}log.php?endpoint=addLog&id=${id}`);
+        if (response.data) {
+          toast.success('Log added successfully', {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+          context.dispatch('fetchLogStatus');
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error('Error adding log:', error);
+        toast.error(`Error adding log: ${error.message}`, {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        return false;
+      }
+    }
   },
 });
 export default store;
